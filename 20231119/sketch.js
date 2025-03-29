@@ -150,7 +150,7 @@ function setup() {
 }
 
 function draw() {
-  drawRandom();
+  // drawRandom();
   drawThreeTiers();
   noLoop();
 }
