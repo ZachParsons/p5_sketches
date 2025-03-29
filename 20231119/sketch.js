@@ -92,8 +92,6 @@ function repeatDrawBezier(curvePosition, weight, repetitions) {
   }
 }
 
-
-
 function drawLine(weight, repetitions) {
   let { r, g, b } = pickColor();
   noFill();
