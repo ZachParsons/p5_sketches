@@ -50,15 +50,20 @@ function drawBezier({
 function createMask(w, h) {
   let mask = createGraphics(w, h);
   
-  mask.stroke(255);
-  mask.strokeWeight(150);
-  
-  for (let i = 0; i < 50; i++) {
-    let x1 = random(w);
-    let y1 = random(h);
-    let x2 = random(w);
-    let y2 = random(w);
-    mask.line(x1, y1, x2, y2);
+  for (let i = 0; i < 9; i++) {
+    let x1 = Math.random() * width;
+    let x2 = Math.random() * width;
+    let x3 = Math.random() * width;
+    let x4 = Math.random() * width;
+    let y1 = Math.random() * width;
+    let y2 = Math.random() * width;
+    let y3 = Math.random() * width;
+    let y4 = Math.random() * width;
+    
+    mask.noFill();
+    mask.strokeWeight(100);
+    mask.strokeCap(SQUARE);
+    mask.bezier(x1, y1, x2, y2, x3, y3, x4, y4)
   }
 
 
