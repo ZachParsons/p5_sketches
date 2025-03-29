@@ -6,8 +6,8 @@
 // Pre-runtime.
 function dimensions() {
   return {
-    width: 4000,
-    height: 4000
+    width: 1800,
+    height: 1800
   }
 }
 
@@ -71,14 +71,16 @@ function setup() {
 }
 
 function draw() {
+  let { width: width, height: height } = dimensions()
+
   img1.mask(mask1); // Apply mask to image.
-  image(img1, 0, 0);  // Draw image to canvas.
+  image(img1, 0, 0, width, height);  // Draw image to canvas.
 
   img2.mask(mask2);
-  image(img2, 0, 0);
+  image(img2, 0, 0, width, height);
 
   img3.mask(mask3);
-  image(img3, 0, 0);
+  image(img3, 0, 0, width, height);
 
   noLoop();
 }
