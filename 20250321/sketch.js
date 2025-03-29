@@ -22,7 +22,10 @@ function makeBezier() {
 
 function drawBezier(mask, {
   x1: x1, y1: y1, x2: x2, y2: y2, x3: x3, y3: y3, x4: x4, y4: y4
-}) {
+}, weight) {
+  mask.noFill();
+  mask.strokeWeight(weight);
+  mask.strokeCap(SQUARE);
   return mask.bezier(x1, y1, x2, y2, x3, y3, x4, y4)
 }
 
@@ -31,11 +34,7 @@ function drawBeziers(mask, count, weight) {
     let bezier = {
       x1: x1, y1: y1, x2: x2, y2: y2, x3: x3, y3: y3, x4: x4, y4: y4
     } = makeBezier()
-
-    mask.noFill();
-    mask.strokeWeight(weight)
-    mask.strokeCap(SQUARE);
-    mask = drawBezier(mask, bezier)
+    mask = drawBezier(mask, bezier, weight)
   }
   return mask;
 }
@@ -69,20 +68,17 @@ function setup() {
   mask1 = createMask(3, randomWeight(width / 1), width, height)
   mask2 = createMask(3, randomWeight(width / 3), width, height)
   mask3 = createMask(3, randomWeight(width / 9), width, height)
-  // [mask1, mask2, mask3] = createMasks(3, width, height)
 }
 
 function draw() {
-  // Apply mask to image.
-  img1.mask(mask1);
-  // img1 = applyMask(img1, mask1)
-
-  // Draw image to canvas.
-  image(img1, 0, 0);
+  img1.mask(mask1); // Apply mask to image.
+  image(img1, 0, 0);  // Draw image to canvas.
 
   img2.mask(mask2);
   image(img2, 0, 0);
 
   img3.mask(mask3);
   image(img3, 0, 0);
+
+  noLoop();
 }
