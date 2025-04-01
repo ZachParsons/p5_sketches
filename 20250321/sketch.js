@@ -29,12 +29,42 @@ function drawBezier(mask, {
   return mask.bezier(x1, y1, x2, y2, x3, y3, x4, y4)
 }
 
-function drawBeziers(mask, count, weight) {
+// Added from 20231119/sketch.js
+function translateBezier(curvePosition, weight) {
+  weight = randomBoolean() ? weight : -weight
+
+  return {
+    x1: curvePosition.x1 + weight,
+    y1: curvePosition.y1 + weight,
+    x2: curvePosition.x2 + weight,
+    y2: curvePosition.y2 + weight,
+    x3: curvePosition.x3 + weight,
+    y3: curvePosition.y3 + weight,
+    x4: curvePosition.x4 + weight,
+    y4: curvePosition.y4 + weight
+  };
+}
+
+// Added from 20231119/sketch.js
+function randomBoolean() {
+  return Math.random() < 0.5;
+}
+
+// Added from 20231119/sketch.js - modified to work with mask
+function repeatDrawBezier(mask, curvePosition, weight, repetitions) {
+  drawBezier(mask, curvePosition, weight);
+  for (let i = 0; i < repetitions; i++) {
+    curvePosition = translateBezier(curvePosition, (weight * 1.5));
+    drawBezier(mask, curvePosition, weight);
+  }
+  return mask;
+}
+
+// Updated to include repetitions
+function drawBeziers(mask, count, weight, repetitions) {
   for (let i = 0; i < count; i++) {
-    let bezier = {
-      x1: x1, y1: y1, x2: x2, y2: y2, x3: x3, y3: y3, x4: x4, y4: y4
-    } = makeBezier()
-    mask = drawBezier(mask, bezier, weight)
+    let bezier = makeBezier();
+    mask = repeatDrawBezier(mask, bezier, weight, repetitions);
   }
   return mask;
 }
@@ -43,15 +73,18 @@ function randomWeight(width) {
   return Math.floor(Math.random() * width);
 }
 
+// Added from 20231119/sketch.js
+function randomRepetitions() {
+  return Math.floor(Math.random() * 100);
+}
 
-// Set mask of random lines.
-function createMask(count, weight, width, height) {
+// Updated to include repetitions parameter
+function createMask(count, weight, width, height, repetitions) {
   // Initialize mask.
   let mask = createGraphics(width, height);
   // Draw lines & add to mask.
-  return drawBeziers(mask, count, weight)
+  return drawBeziers(mask, count, weight, repetitions);
 }
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // Runtime.
@@ -65,9 +98,10 @@ function setup() {
   let { width: width, height: height } = dimensions()
   createCanvas(width, height);
 
-  mask1 = createMask(3, randomWeight(width / 1), width, height)
-  mask2 = createMask(3, randomWeight(width / 3), width, height)
-  mask3 = createMask(3, randomWeight(width / 9), width, height)
+  // Updated to include repetitions - similar to drawThreeTiers in original
+  mask1 = createMask(3, randomWeight(width / 1), width, height, 1);
+  mask2 = createMask(3, randomWeight(width / 3), width, height, 10);
+  mask3 = createMask(3, randomWeight(width / 9), width, height, 100);
 }
 
 function draw() {
