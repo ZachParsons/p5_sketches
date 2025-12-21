@@ -1,0 +1,12 @@
+{
+  "name": "p5js-photo-server",
+  "version": "1.0.0",
+  "description": "A minimal server for p5.js photo access",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+} 
