@@ -39,9 +39,12 @@ app.get('/api/photos', (req, res) => {
     const allFiles = getAllFiles(photosDir);
 
     // Filter for browser-compatible image files only
+    const sinceDate = config.photosSince ? new Date(config.photosSince) : null;
     const imageFiles = allFiles.filter(file => {
       const ext = path.extname(file).toLowerCase();
-      return ['.jpg', '.jpeg', '.png', '.gif'].includes(ext);
+      if (!['.jpg', '.jpeg', '.png', '.gif'].includes(ext)) return false;
+      if (sinceDate && fs.statSync(file).mtime < sinceDate) return false;
+      return true;
     });
 
     if (imageFiles.length === 0) {
